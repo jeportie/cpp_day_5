@@ -19,7 +19,8 @@ Bureaucrat::Bureaucrat(void)
 : _name("default")
 , _grade(75)
 {
-	std::cout << "[Bureaucrat] - default constructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Bureaucrat] - default constructor called - " << std::endl;
 	if (this->_grade < 1)
 		throw Bureaucrat::GradeTooHighException("Init Error: 1 is the highest possible grade.");
 	else if (this->_grade > 150)
@@ -30,7 +31,8 @@ Bureaucrat::Bureaucrat(std::string name, size_t grade)
 : _name(name)
 , _grade(grade)
 {
-	std::cout << "[Bureaucrat] - parametric constructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Bureaucrat] - parametric constructor called - " << std::endl;
 	if (this->_grade < 1)
 		throw Bureaucrat::GradeTooHighException("Init Error: 1 is the highest possible grade.");
 	else if (this->_grade > 150)
@@ -40,14 +42,16 @@ Bureaucrat::Bureaucrat(std::string name, size_t grade)
 Bureaucrat::Bureaucrat(const Bureaucrat& src)
 : _name(src.getName())
 {
-	std::cout << "[Bureaucrat] - copy constructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Bureaucrat] - copy constructor called - " << std::endl;
 	*this = src;
 	return;
 }
 
 Bureaucrat::~Bureaucrat(void)
 {
-	std::cout << "[Bureaucrat] - destructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Bureaucrat] - destructor called - " << std::endl;
 	return;
 }
 
@@ -55,7 +59,8 @@ Bureaucrat::~Bureaucrat(void)
 
 Bureaucrat & Bureaucrat::operator=(const Bureaucrat& rhs)
 {
-	std::cout << "[Bureaucrat] - copy assignment operator called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Bureaucrat] - copy assignment operator called - " << std::endl;
 	if (this != &rhs)
 		this->_grade = rhs.getGrade();
 	return (*this);
@@ -91,12 +96,14 @@ void Bureaucrat::gradeDown(void)
 Bureaucrat::GradeTooHighException::GradeTooHighException(const std::string& msg) throw()
   : _message(msg)
 {
-	std::cout << "[Bureaucrat-GradeToHighException] - constructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Bureaucrat-GradeToHighException] - constructor called - " << std::endl;
 }
 
 Bureaucrat::GradeTooHighException::~GradeTooHighException() throw()
 {
-	std::cout << "[Bureaucrat-GradeToHighException] - destructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Bureaucrat-GradeToHighException] - destructor called - " << std::endl;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -111,12 +118,14 @@ const char* Bureaucrat::GradeTooHighException::what() const throw()
 Bureaucrat::GradeTooLowException::GradeTooLowException(const std::string& msg) throw()
   : _message(msg)
 {
-	std::cout << "[Bureaucrat-GradeToLowException] - constructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Bureaucrat-GradeToLowException] - constructor called - " << std::endl;
 }
 
 Bureaucrat::GradeTooLowException::~GradeTooLowException() throw()
 {
-	std::cout << "[Bureaucrat-GradeToLowException] - destructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Bureaucrat-GradeToLowException] - destructor called - " << std::endl;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

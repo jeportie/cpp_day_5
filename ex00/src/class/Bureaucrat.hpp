@@ -13,6 +13,8 @@
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 
+# define DEBUG 0 
+
 # include <iostream>
 # include <string>
 # include <exception>
