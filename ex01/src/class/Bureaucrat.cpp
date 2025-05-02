@@ -6,13 +6,14 @@
 /*   By: jeportie <jeportie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 08:06:02 by jeportie          #+#    #+#             */
-/*   Updated: 2025/04/30 09:50:56 by jeportie         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:37:05 by jeportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <ostream>
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 Bureaucrat::Bureaucrat(void)
@@ -89,6 +90,17 @@ void Bureaucrat::gradeDown(void)
 	if (this->_grade >= 150)
 		throw Bureaucrat::GradeTooLowException("Decrement Error: Already at lowest grade!");
 	this->_grade++;
+}
+
+
+void Bureaucrat::signForm(Form& form)
+{
+	if (form.beSigned(*this) == true)
+		std::cout << _name << " signed " << form.getName() << std::endl;
+	else
+		std::cout	<< _name << " couldn't sign " << form.getName()
+					<< " because grade is too low" << std::endl;
+	return ;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

@@ -6,7 +6,7 @@
 /*   By: jeportie <jeportie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 07:55:21 by jeportie          #+#    #+#             */
-/*   Updated: 2025/05/02 09:29:35 by jeportie         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:29:48 by jeportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ public:
 	bool	isSigned(void) const;
 	size_t	getReqSignGrade(void) const;
 	size_t	getReqExecGrade(void) const;
-	void	beSigned(Bureaucrat& employee);
+	bool	beSigned(Bureaucrat& employee);
 
 	class GradeTooHighException;
 	class GradeTooLowException;

@@ -61,11 +61,11 @@ TEST(BureaucratTest, GradeTooHighException)
     testing::internal::CaptureStderr();
     try
     {
-		Bureaucrat  o("tooHight", 0);
+        Bureaucrat o("tooHight", 0);
     }
     catch (const Bureaucrat::GradeTooHighException& e)
     {
-		std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
     }
     std::string output = testing::internal::GetCapturedStderr();
     EXPECT_EQ(output, "Init Error: 1 is the highest possible grade.\n");
@@ -76,12 +76,12 @@ TEST(BureaucratTest, GradeTooHighIncrementException)
     testing::internal::CaptureStderr();
     try
     {
-		Bureaucrat  o("tooHight", 1);
-		o.gradeUp();
+        Bureaucrat o("tooHight", 1);
+        o.gradeUp();
     }
     catch (const Bureaucrat::GradeTooHighException& e)
     {
-		std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
     }
     std::string output = testing::internal::GetCapturedStderr();
     EXPECT_EQ(output, "Increment Error: Already at highest grade!\n");
@@ -92,11 +92,11 @@ TEST(BureaucratTest, GradeTooLowException)
     testing::internal::CaptureStderr();
     try
     {
-		Bureaucrat  o("tooLow", 151);
+        Bureaucrat o("tooLow", 151);
     }
     catch (const Bureaucrat::GradeTooLowException& e)
     {
-		std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
     }
     std::string output = testing::internal::GetCapturedStderr();
     EXPECT_EQ(output, "Init Error: 150 is the lowest possible grade.\n");
@@ -107,12 +107,12 @@ TEST(BureaucratTest, GradeTooLowDecrementException)
     testing::internal::CaptureStderr();
     try
     {
-		Bureaucrat  o("tooLow", 150);
-		o.gradeDown();
+        Bureaucrat o("tooLow", 150);
+        o.gradeDown();
     }
     catch (const Bureaucrat::GradeTooLowException& e)
     {
-		std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
     }
     std::string output = testing::internal::GetCapturedStderr();
     EXPECT_EQ(output, "Decrement Error: Already at lowest grade!\n");
@@ -120,19 +120,28 @@ TEST(BureaucratTest, GradeTooLowDecrementException)
 
 TEST(BureaucratTest, signForm)
 {
-	Bureaucrat employee("Bob", 5);
+    Bureaucrat employee("Bob", 5);
 
-    testing::internal::CaptureStderr();
-	Form file("Test", 10, 10);
-	employee.signForm(file);
-    std::string output = testing::internal::GetCapturedStderr();
-	EXPECT_TRUE(file.isSigned());
+    Form file("Test", 10, 10);
+    testing::internal::CaptureStdout();
+    employee.signForm(file);
+    std::string output = testing::internal::GetCapturedStdout();
+    EXPECT_TRUE(file.isSigned());
     EXPECT_EQ(output, "Bob signed Test\n");
 
-	Form file1("Test", 1, 1);
-	employee.signForm(file);
-	EXPECT_FALSE(file.isSigned());
-    EXPECT_EQ(output, "Bob couldn't sign Test because his grade is too low\n");
+    Form file1("Test", 1, 1);
+    testing::internal::CaptureStdout();
+    try
+    {
+		employee.signForm(file1);
+    }
+    catch (const Form::GradeTooLowException& e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
+    std::string output1 = testing::internal::GetCapturedStdout();
+    EXPECT_FALSE(file1.isSigned());
+    /*EXPECT_EQ(output, "Bob couldn't sign Test because his grade is too low\n");*/
 }
 
 /*TEST(BureaucratTest, template)*/

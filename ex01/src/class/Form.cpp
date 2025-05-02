@@ -6,7 +6,7 @@
 /*   By: jeportie <jeportie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 09:43:16 by jeportie          #+#    #+#             */
-/*   Updated: 2025/05/02 10:16:06 by jeportie         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:30:22 by jeportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ Form::Form(void)
 {
 	if (DEBUG)
 		std::cout << "[Form] - default constructor called - " << std::endl;
+	if (this->_reqSignGrade < 1 || this->_reqExecGrade < 1)
+		throw Form::GradeTooHighException("Init Grade Error: 1 is the highest possible grade.");
+	else if (this->_reqSignGrade > 150 || this->_reqExecGrade > 150)
+		throw Form::GradeTooLowException("Init Grade Error: 150 is the lowest possible grade.");
 }
 
 Form::Form(const std::string& name, size_t signGrade, size_t execGrade)
@@ -32,7 +36,12 @@ Form::Form(const std::string& name, size_t signGrade, size_t execGrade)
 , _reqSignGrade(signGrade)
 , _reqExecGrade(execGrade)
 {
-	std::cout << "[Form] - default constructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Form] - default constructor called - " << std::endl;
+	if (this->_reqSignGrade < 1 || this->_reqExecGrade < 1)
+		throw Form::GradeTooHighException("Init Grade Error: 1 is the highest possible grade.");
+	else if (this->_reqSignGrade > 150 || this->_reqExecGrade > 150)
+		throw Form::GradeTooLowException("Init Grade Error: 150 is the lowest possible grade.");
 }
 
 Form::Form(const Form& src)
@@ -40,20 +49,23 @@ Form::Form(const Form& src)
 , _reqSignGrade(75)
 , _reqExecGrade(75)
 {
-	std::cout << "[Form] - copy constructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Form] - copy constructor called - " << std::endl;
 	*this = src;
 	return;
 }
 
 Form::~Form(void)
 {
-	std::cout << "[Form] - destructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Form] - destructor called - " << std::endl;
 	return;
 }
 
 Form & Form::operator=(const Form& rhs)
 {
-	std::cout << "[Form] - copy assignment operator called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[Form] - copy assignment operator called - " << std::endl;
 	if (this != &rhs)
 	{
 		_isSigned = rhs.isSigned();
@@ -80,9 +92,16 @@ size_t	Form::getReqSignGrade(void) const { return (this->_reqSignGrade); }
 
 size_t	Form::getReqExecGrade(void) const { return (this->_reqExecGrade); }
 
-void	Form::beSigned(Bureaucrat& employee)
+bool	Form::beSigned(Bureaucrat& employee)
 {
-	return ;
+	if (employee.getGrade() <= this->_reqSignGrade)
+	{
+		this->_isSigned = true;
+		return (true);
+	}
+	else
+		throw Form::GradeTooLowException("Error: Employee grade is too low.");
+	return (false);
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
