@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "src/class/Bureaucrat.hpp"
+#include "src/class/Form.hpp"
 
 bool checkException(std::string name, size_t grade, bool up)
 {
@@ -24,22 +25,12 @@ bool checkException(std::string name, size_t grade, bool up)
 			employee.gradeDown();
 		std::cout << employee << std::endl;
     }
-    catch (const Bureaucrat::GradeTooLowException& e)
-    {
-		std::cerr << e.what() << std::endl;
-    }
-    catch (const Bureaucrat::GradeTooHighException& e)
-    {
-		std::cerr << e.what() << std::endl;
-    }
-    catch (const std::exception& e)
-    {
-		std::cerr << e.what() << std::endl;
-    }
-    catch (...)
-    {
-		std::cerr << "Unknown failure!" << std::endl;
-    }
+    catch (const Bureaucrat::GradeTooLowException& e) { std::cerr << e.what() << std::endl; }
+    catch (const Bureaucrat::GradeTooHighException& e) { std::cerr << e.what() << std::endl; }
+    catch (const Form::GradeTooLowException& e) { std::cerr << e.what() << std::endl; }
+    catch (const Form::GradeTooHighException& e) { std::cerr << e.what() << std::endl; }
+    catch (const std::exception& e) { std::cerr << e.what() << std::endl; }
+    catch (...) { std::cerr << "Unknown failure!" << std::endl; }
 	return (true);
 }
 
