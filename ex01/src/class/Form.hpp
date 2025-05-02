@@ -1,54 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
+/*   Form.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeportie <jeportie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 07:21:44 by jeportie          #+#    #+#             */
-/*   Updated: 2025/05/02 09:29:01 by jeportie         ###   ########.fr       */
+/*   Created: 2025/05/02 07:55:21 by jeportie          #+#    #+#             */
+/*   Updated: 2025/05/02 09:29:35 by jeportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUREAUCRAT_HPP
-# define BUREAUCRAT_HPP
-
-# define DEBUG 0 
+#ifndef FORM_HPP
+# define FORM_HPP
 
 # include <iostream>
-# include <string>
-# include <exception>
 
-class Form;
+class Bureaucrat;
 
-class Bureaucrat
+class Form
 {
 public:
-	Bureaucrat(void);
-	Bureaucrat(std::string name, size_t grade);
-	Bureaucrat(const Bureaucrat& src);
+	Form(void);
+	Form(const std::string& name, size_t reqSignGrade, size_t reqExecGrade);
+	Form(const Form& src);
+	~Form(void);
 
-	~Bureaucrat(void);
-
-	Bureaucrat& operator=(const Bureaucrat& rhs);
+	Form& operator=(const Form& rhs);
 
 	const std::string& getName(void) const;
-	size_t getGrade(void) const;
+	bool	isSigned(void) const;
+	size_t	getReqSignGrade(void) const;
+	size_t	getReqExecGrade(void) const;
+	void	beSigned(Bureaucrat& employee);
 
-	void gradeUp(void); // decrement variable
-	void gradeDown(void); //increment variable
-	
-	void signForm(Form& form);
-	
 	class GradeTooHighException;
 	class GradeTooLowException;
 
 private:
 	const std::string _name;
-	size_t		_grade;
+	bool			  _isSigned;
+	const size_t	  _reqSignGrade;
+	const size_t	  _reqExecGrade;
 };
 
-class Bureaucrat::GradeTooHighException : public std::exception
+class Form::GradeTooHighException : public std::exception
 {
 public:
 	GradeTooHighException(const std::string& msg) throw();
@@ -60,7 +55,7 @@ private:
 	std::string _message;
 };
 
-class Bureaucrat::GradeTooLowException : public std::exception
+class Form::GradeTooLowException : public std::exception
 {
 public:
 	GradeTooLowException(const std::string& msg) throw();
@@ -72,6 +67,7 @@ private:
 	std::string _message;
 };
 
-std::ostream & operator<<(std::ostream& out, const Bureaucrat& in);
+// Overload operator<< for output streaming
+std::ostream & operator<<(std::ostream& out, const Form& in);
 
-#endif  // *************************************************** BUREAUCRAT_HPP //
+#endif  // ********************************************************* FORM_HPP //

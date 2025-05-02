@@ -6,12 +6,13 @@
 /*   By: jeportie <jeportie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:54:41 by jeportie          #+#    #+#             */
-/*   Updated: 2025/04/30 10:02:21 by jeportie         ###   ########.fr       */
+/*   Updated: 2025/05/02 09:41:41 by jeportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <gtest/gtest.h>
 #include "../../src/class/Bureaucrat.hpp"
+#include "../../src/class/Form.hpp"
 
 TEST(BureaucratTest, DefaultConstructor)
 {
@@ -115,6 +116,23 @@ TEST(BureaucratTest, GradeTooLowDecrementException)
     }
     std::string output = testing::internal::GetCapturedStderr();
     EXPECT_EQ(output, "Decrement Error: Already at lowest grade!\n");
+}
+
+TEST(BureaucratTest, signForm)
+{
+	Bureaucrat employee("Bob", 5);
+
+    testing::internal::CaptureStderr();
+	Form file("Test", 10, 10);
+	employee.signForm(file);
+    std::string output = testing::internal::GetCapturedStderr();
+	EXPECT_TRUE(file.isSigned());
+    EXPECT_EQ(output, "Bob signed Test\n");
+
+	Form file1("Test", 1, 1);
+	employee.signForm(file);
+	EXPECT_FALSE(file.isSigned());
+    EXPECT_EQ(output, "Bob couldn't sign Test because his grade is too low\n");
 }
 
 /*TEST(BureaucratTest, template)*/
