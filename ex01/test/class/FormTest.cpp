@@ -6,7 +6,7 @@
 /*   By: jeportie <jeportie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:54:41 by jeportie          #+#    #+#             */
-/*   Updated: 2025/05/02 09:25:22 by jeportie         ###   ########.fr       */
+/*   Updated: 2025/05/02 09:55:21 by jeportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ TEST(FormTest, CopyConstructor)
 {
     Form o;
     Form c(o);
-    EXPECT_EQ(c.getName(), "default");
+    EXPECT_EQ(c.getName(), "copy");
 	EXPECT_EQ(c.getReqSignGrade(), 75);
 	EXPECT_EQ(c.getReqExecGrade(), 75);
 }
