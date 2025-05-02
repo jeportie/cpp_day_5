@@ -78,7 +78,7 @@ std::ostream & operator<<(std::ostream & out, const Form& in)
 	out << in.getName() << ", sign grade "
 		<< in.getReqSignGrade() << ", exec grade " 
 		<< in.getReqExecGrade() << ", is signed: "
-		<< in.isSigned() << "." << std::endl;
+		<< in.isSigned() << ".";
 	return (out);
 }
 

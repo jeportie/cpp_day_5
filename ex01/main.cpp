@@ -13,17 +13,16 @@
 #include "src/class/Bureaucrat.hpp"
 #include "src/class/Form.hpp"
 
-bool checkException(std::string name, size_t grade, bool up)
+bool checkException(std::string name, size_t grade, size_t signGrade, size_t execGrade)
 {
     try
     {
-		Bureaucrat employee(name, grade);
+		Bureaucrat	employee(name, grade);
+		Form		file("test", signGrade, execGrade);
 
-		if (up == true)
-			employee.gradeUp();
-		else
-			employee.gradeDown();
+		employee.signForm(file);
 		std::cout << employee << std::endl;
+		std::cout << file << std::endl;
     }
     catch (const Bureaucrat::GradeTooLowException& e) { std::cerr << e.what() << std::endl; }
     catch (const Bureaucrat::GradeTooHighException& e) { std::cerr << e.what() << std::endl; }
@@ -31,15 +30,16 @@ bool checkException(std::string name, size_t grade, bool up)
     catch (const Form::GradeTooHighException& e) { std::cerr << e.what() << std::endl; }
     catch (const std::exception& e) { std::cerr << e.what() << std::endl; }
     catch (...) { std::cerr << "Unknown failure!" << std::endl; }
+	std::cout << "==================================" << std::endl;
 	return (true);
 }
 
 int main(void)
 {
-	checkException("TOBIG", 0, true);
-	checkException("BIGEST", 1, true);
-	checkException("TOSMALL", 151, false);
-	checkException("SMALLEST", 150, false);
-	checkException("Bob", 75, false);
+	checkException("TOBIG", 0, 1, 1);
+	checkException("TOSMALL", 151, 10, 10);
+	checkException("Bob", 75, 80, 80);
+	checkException("Bob", 75, 70, 70);
+	checkException("Bob", 75, 75, 75);
     return (0);
 }
