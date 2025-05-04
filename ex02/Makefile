@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Bureaucrat
+NAME = Form
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 VALFLAGS = --leak-check=full
@@ -23,11 +23,8 @@ ARGS=$(filter-out $@,$(MAKECMDGOALS))
 #### BEGIN AUTO GENERATED FILES ###
 # List of source files:
 SRC = \
-  src/class/Ice.cpp \
-  src/class/Character.cpp \
-  src/class/AMateria.cpp \
-  src/class/MateriaSource.cpp \
-  src/class/Cure.cpp 
+  src/class/Bureaucrat.cpp \
+  src/class/Form.cpp 
 ### END AUTO GENERATED FILES ###
 
 # Create object for main.cpp
