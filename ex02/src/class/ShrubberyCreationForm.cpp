@@ -31,10 +31,10 @@ ShrubberyCreationForm::ShrubberyCreationForm(void)
 
 ShrubberyCreationForm::ShrubberyCreationForm(const std::string& target)
 : AForm("ShrubberyCreationForm", 145, 137)
-, _target("default")
+, _target(target)
 {
 	if (DEBUG)
-		std::cout << "[ShrubberyCreationForm] - default constructor called - " << std::endl;
+		std::cout << "[ShrubberyCreationForm] - copy constructor called - " << std::endl;
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& src)
@@ -69,8 +69,7 @@ void ShrubberyCreationForm::execute(Bureaucrat const& executor) const
 		throw AForm::GradeTooLowException("Form is not signed.");
 	if (executor.getGrade() > getReqExecGrade())
 		throw AForm::GradeTooLowException("Executor grade is too low.");
-
-	std::ofstream ofs(_target + "_shrubbery");
+	std::ofstream ofs((_target + "_shrubbery").c_str());
 	if (!ofs)
 		throw std::runtime_error("Failed to open file.");
 

@@ -11,23 +11,41 @@
 /* ************************************************************************** */
 
 #include "src/class/Bureaucrat.hpp"
-#include "src/class/Form.hpp"
+#include "src/class/AForm.hpp"
+#include "src/class/PresidentialPardonForm.hpp"
+#include "src/class/RobotomyRequestForm.hpp"
+#include "src/class/ShrubberyCreationForm.hpp"
 
-bool checkException(std::string name, size_t grade, size_t signGrade, size_t execGrade)
+bool checkException(std::string name1, size_t grade1, std::string name2, size_t grade2)
 {
     try
     {
-		Bureaucrat	employee(name, grade);
-		Form		file("test", signGrade, execGrade);
+		Bureaucrat  boss(name1, grade1);
+		Bureaucrat	employee(name2, grade2);
+		std::string target = "Bob";
 
-		employee.signForm(file);
-		std::cout << employee << std::endl;
-		std::cout << file << std::endl;
+		PresidentialPardonForm	pardon(target);
+		RobotomyRequestForm robot(target);
+		ShrubberyCreationForm tree(target);
+
+		employee.signForm(pardon);
+		std::cout << "==================================" << std::endl;
+		employee.signForm(robot);
+		std::cout << "==================================" << std::endl;
+		employee.signForm(tree);
+		std::cout << "==================================" << std::endl;
+
+		boss.executeForm(pardon);
+		std::cout << "==================================" << std::endl;
+		boss.executeForm(robot);
+		std::cout << "==================================" << std::endl;
+		boss.executeForm(tree);
+		std::cout << "==================================" << std::endl;
     }
     catch (const Bureaucrat::GradeTooLowException& e) { std::cerr << e.what() << std::endl; }
     catch (const Bureaucrat::GradeTooHighException& e) { std::cerr << e.what() << std::endl; }
-    catch (const Form::GradeTooLowException& e) { std::cerr << e.what() << std::endl; }
-    catch (const Form::GradeTooHighException& e) { std::cerr << e.what() << std::endl; }
+    catch (const AForm::GradeTooLowException& e) { std::cerr << e.what() << std::endl; }
+    catch (const AForm::GradeTooHighException& e) { std::cerr << e.what() << std::endl; }
     catch (const std::exception& e) { std::cerr << e.what() << std::endl; }
     catch (...) { std::cerr << "Unknown failure!" << std::endl; }
 	std::cout << "==================================" << std::endl;
@@ -36,10 +54,13 @@ bool checkException(std::string name, size_t grade, size_t signGrade, size_t exe
 
 int main(void)
 {
-	checkException("TOBIG", 0, 1, 1);
-	checkException("TOSMALL", 151, 10, 10);
-	checkException("Bob", 75, 80, 80);
-	checkException("Bob", 75, 70, 70);
-	checkException("Bob", 75, 75, 75);
+    checkException("Boss", 42, "sam", 60);
+    checkException("Boss", 0, "sam", 120); // Grade too high for boss
+    checkException("Boss", 151, "sam", 120); // Grade too low for boss
+    checkException("Boss", 1, "sam", 0); // Grade too high for form signing
+    checkException("Boss", 1, "sam", 151); // Grade too low for form execution
+    checkException("Boss", 1, "sam", 25); // Exact grade for PresidentialPardonForm
+    checkException("Boss", 10, "sam", 72); // Exact grade for RobotomyRequestForm
+
     return (0);
 }

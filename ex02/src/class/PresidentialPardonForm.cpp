@@ -13,36 +13,58 @@
 #include <iostream>
 #include <ostream>
 #include "PresidentialPardonForm.hpp"
+#include "../../include/main.hpp"
+#include "AForm.hpp"
+#include "Bureaucrat.hpp"
 
 PresidentialPardonForm::PresidentialPardonForm(void)
+: AForm("PresidentialPardonForm", 25, 5)
+, _target("default")
 {
-	std::cout << "[PresidentialPardonForm] - default constructor called - " << std::endl;
+    if (DEBUG)
+        std::cout << "[PresidentialPardonForm] - default constructor called - " << std::endl;
 }
 
-PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& src)
+PresidentialPardonForm::PresidentialPardonForm(const std::string& target)
+: AForm("PresidentialPardonForm", 25, 5)
+, _target(target)
 {
-	std::cout << "[PresidentialPardonForm] - copy constructor called - " << std::endl;
-	*this = src;
-	return;
+    if (DEBUG)
+        std::cout << "[PresidentialPardonForm] - default constructor called - " << std::endl;
+}
+
+
+PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& src)
+: AForm(src)
+, _target(src._target)
+{
+    if (DEBUG)
+        std::cout << "[PresidentialPardonForm] - copy constructor called - " << std::endl;
 }
 
 PresidentialPardonForm::~PresidentialPardonForm(void)
 {
-	std::cout << "[PresidentialPardonForm] - destructor called - " << std::endl;
-	return;
+    if (DEBUG)
+        std::cout << "[PresidentialPardonForm] - destructor called - " << std::endl;
 }
 
-PresidentialPardonForm & PresidentialPardonForm::operator=(const PresidentialPardonForm& rhs)
+PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPardonForm& rhs)
 {
-	std::cout << "[PresidentialPardonForm] - copy assignment operator called - " << std::endl;
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
-	return (*this);
+    if (DEBUG)
+        std::cout << "[PresidentialPardonForm] - copy assignment operator called - " << std::endl;
+    if (this != &rhs)
+    {
+        AForm::operator=(rhs);
+        _target = rhs._target;
+    }
+    return (*this);
 }
 
-//std::ostream & operator<<(std::ostream & out, const PresidentialPardonForm& in)
-//{
-	//out << "The value of _foo is : " << in.getFoo();
-	//return (out);
-//}
-
+void PresidentialPardonForm::execute(Bureaucrat const& executor) const
+{
+    if (!isSigned())
+        throw AForm::GradeTooLowException("Form is not signed.");
+    if (executor.getGrade() > getReqExecGrade())
+        throw AForm::GradeTooLowException("Executor grade is too low.");
+    std::cout << _target << " has been pardoned by Zaphod Beeblebrox." << std::endl;
+}

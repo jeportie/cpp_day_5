@@ -13,36 +13,63 @@
 #include <iostream>
 #include <ostream>
 #include "RobotomyRequestForm.hpp"
+#include "../../include/main.hpp"
+#include "Bureaucrat.hpp"
+#include <cstdlib>
+#include <ctime>
 
 RobotomyRequestForm::RobotomyRequestForm(void)
+: AForm("RobotomyRequestForm", 72, 45)
+, _target("default")
 {
-	std::cout << "[RobotomyRequestForm] - default constructor called - " << std::endl;
+	if (DEBUG)
+		std::cout << "[RobotomyRequestForm] - default constructor called - " << std::endl;
+}
+
+RobotomyRequestForm::RobotomyRequestForm(const std::string& target)
+: AForm("RobotomyRequestForm", 72, 45)
+, _target(target)
+{
+	if (DEBUG)
+		std::cout << "[RobotomyRequestForm] - copy constructor called - " << std::endl;
 }
 
 RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& src)
+: AForm(src)
+, _target(src._target)
 {
-	std::cout << "[RobotomyRequestForm] - copy constructor called - " << std::endl;
-	*this = src;
-	return;
+	if (DEBUG)
+		std::cout << "[RobotomyRequestForm] - copy constructor called - " << std::endl;
 }
 
 RobotomyRequestForm::~RobotomyRequestForm(void)
 {
-	std::cout << "[RobotomyRequestForm] - destructor called - " << std::endl;
-	return;
+	if (DEBUG)
+		std::cout << "[RobotomyRequestForm] - destructor called - " << std::endl;
 }
 
 RobotomyRequestForm & RobotomyRequestForm::operator=(const RobotomyRequestForm& rhs)
 {
-	std::cout << "[RobotomyRequestForm] - copy assignment operator called - " << std::endl;
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
+	if (DEBUG)
+		std::cout << "[RobotomyRequestForm] - copy assignment operator called - " << std::endl;
+	if (this != &rhs)
+	{
+		AForm::operator=(rhs);
+		_target = rhs._target;
+	}
 	return (*this);
 }
 
-//std::ostream & operator<<(std::ostream & out, const RobotomyRequestForm& in)
-//{
-	//out << "The value of _foo is : " << in.getFoo();
-	//return (out);
-//}
-
+void RobotomyRequestForm::execute(Bureaucrat const& executor) const
+{
+	if (!isSigned())
+		throw AForm::GradeTooLowException("Form is not signed.");
+	if (executor.getGrade() > getReqExecGrade())
+		throw AForm::GradeTooLowException("Executor grade is too low.");
+    std::cout << "Bzzzz... Bzzzz... Drilling noises..." << std::endl;
+    std::srand(std::time(NULL));
+    if (std::rand() % 2 == 0)
+        std::cout << this->_target << " has been robotomized successfully." << std::endl;
+    else
+        std::cout << "The robotomy failed on " << this->_target << "." << std::endl;
+}
