@@ -6,14 +6,14 @@
 /*   By: jeportie <jeportie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 08:06:02 by jeportie          #+#    #+#             */
-/*   Updated: 2025/05/02 10:37:05 by jeportie         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:09:08 by jeportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <ostream>
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 Bureaucrat::Bureaucrat(void)
@@ -93,7 +93,7 @@ void Bureaucrat::gradeDown(void)
 }
 
 
-void Bureaucrat::signForm(Form& form)
+void Bureaucrat::signForm(AForm& form)
 {
 	if (form.beSigned(*this) == true)
 		std::cout << _name << " signed " << form.getName() << std::endl;
@@ -101,6 +101,19 @@ void Bureaucrat::signForm(Form& form)
 		std::cout	<< _name << " couldn't sign " << form.getName()
 					<< " because grade is too low" << std::endl;
 	return ;
+}
+
+void Bureaucrat::executeForm(AForm const& form) const
+{
+	try
+	{
+		form.execute(*this);
+		std::cout << _name << " executed " << form.getName() << std::endl;
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << _name << " couldn't execute " << form.getName() << " because " << e.what() << std::endl;
+	}
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

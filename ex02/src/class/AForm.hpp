@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Form.hpp                                           :+:      :+:    :+:   */
+/*   AForm.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeportie <jeportie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 07:55:21 by jeportie          #+#    #+#             */
-/*   Updated: 2025/05/02 10:29:48 by jeportie         ###   ########.fr       */
+/*   Updated: 2025/05/04 14:48:51 by jeportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FORM_HPP
-# define FORM_HPP
+#ifndef AFORM_HPP
+# define AFORM_HPP
 
 # include <iostream>
 
 class Bureaucrat;
 
-class Form
+class AForm
 {
 public:
-	Form(void);
-	Form(const std::string& name, size_t reqSignGrade, size_t reqExecGrade);
-	Form(const Form& src);
-	~Form(void);
+	AForm(void);
+	AForm(const std::string& name, size_t reqSignGrade, size_t reqExecGrade);
+	AForm(const AForm& src);
+	~AForm(void);
 
-	Form& operator=(const Form& rhs);
+	AForm& operator=(const AForm& rhs);
 
 	const std::string& getName(void) const;
 	bool	isSigned(void) const;
 	size_t	getReqSignGrade(void) const;
 	size_t	getReqExecGrade(void) const;
 	bool	beSigned(Bureaucrat& employee);
+	virtual void execute(Bureaucrat const& executor) const = 0;
 
 	class GradeTooHighException;
 	class GradeTooLowException;
@@ -43,7 +44,7 @@ private:
 	const size_t	  _reqExecGrade;
 };
 
-class Form::GradeTooHighException : public std::exception
+class AForm::GradeTooHighException : public std::exception
 {
 public:
 	GradeTooHighException(const std::string& msg) throw();
@@ -55,7 +56,7 @@ private:
 	std::string _message;
 };
 
-class Form::GradeTooLowException : public std::exception
+class AForm::GradeTooLowException : public std::exception
 {
 public:
 	GradeTooLowException(const std::string& msg) throw();
@@ -68,6 +69,6 @@ private:
 };
 
 // Overload operator<< for output streaming
-std::ostream & operator<<(std::ostream& out, const Form& in);
+std::ostream & operator<<(std::ostream& out, const AForm& in);
 
-#endif  // ********************************************************* FORM_HPP //
+#endif  // ********************************************************* AFORM_HPP //

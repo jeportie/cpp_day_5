@@ -6,20 +6,20 @@
 /*   By: jeportie <jeportie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 07:21:44 by jeportie          #+#    #+#             */
-/*   Updated: 2025/05/02 09:29:01 by jeportie         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:07:58 by jeportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 
-# define DEBUG 0 
 
 # include <iostream>
 # include <string>
 # include <exception>
+# include "../../include/main.hpp"
 
-class Form;
+class AForm;
 
 class Bureaucrat
 {
@@ -38,7 +38,8 @@ public:
 	void gradeUp(void); // decrement variable
 	void gradeDown(void); //increment variable
 	
-	void signForm(Form& form);
+	void signForm(AForm& form);
+	void executeForm(AForm const& form) const;
 	
 	class GradeTooHighException;
 	class GradeTooLowException;

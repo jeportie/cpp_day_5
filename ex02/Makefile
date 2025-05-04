@@ -23,8 +23,11 @@ ARGS=$(filter-out $@,$(MAKECMDGOALS))
 #### BEGIN AUTO GENERATED FILES ###
 # List of source files:
 SRC = \
+  src/class/AForm.cpp \
+  src/class/RobotomyRequestForm.cpp \
   src/class/Bureaucrat.cpp \
-  src/class/Form.cpp 
+  src/class/ShrubberyCreationForm.cpp \
+  src/class/PresidentialPardonForm.cpp 
 ### END AUTO GENERATED FILES ###
 
 # Create object for main.cpp
