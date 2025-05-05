@@ -12,7 +12,7 @@
 
 #include <gtest/gtest.h>
 #include "../../src/class/Bureaucrat.hpp"
-#include "../../src/class/Form.hpp"
+#include "../../src/class/PresidentialPardonForm.hpp"
 
 TEST(BureaucratTest, DefaultConstructor)
 {
@@ -120,28 +120,53 @@ TEST(BureaucratTest, GradeTooLowDecrementException)
 
 TEST(BureaucratTest, signForm)
 {
-    Bureaucrat employee("Bob", 5);
+    Bureaucrat employee("Bob", 1);
 
-    Form file("Test", 10, 10);
+    PresidentialPardonForm file("Bob");
     testing::internal::CaptureStdout();
     employee.signForm(file);
     std::string output = testing::internal::GetCapturedStdout();
     EXPECT_TRUE(file.isSigned());
     EXPECT_EQ(output, "Bob signed Test\n");
 
-    Form file1("Test", 1, 1);
-    testing::internal::CaptureStdout();
+    Bureaucrat intern("Jej", 100);
+    testing::internal::CaptureStderr();
     try
     {
-		employee.signForm(file1);
+		intern.signForm(file);
     }
-    catch (const Form::GradeTooLowException& e)
+    catch (const AForm::GradeTooLowException& e)
     {
         std::cerr << e.what() << std::endl;
     }
-    std::string output1 = testing::internal::GetCapturedStdout();
-    EXPECT_FALSE(file1.isSigned());
-    /*EXPECT_EQ(output, "Bob couldn't sign Test because his grade is too low\n");*/
+    std::string output1 = testing::internal::GetCapturedStderr();
+    EXPECT_FALSE(file.isSigned());
+    EXPECT_EQ(output, "Form is not signed.\n");
+}
+
+TEST(BureaucratTest, execForm)
+{
+    Bureaucrat employee("Bob", 1);
+
+    PresidentialPardonForm file("Bob");
+    testing::internal::CaptureStdout();
+    employee.executeForm(file);
+    std::string output2 = testing::internal::GetCapturedStdout();
+    EXPECT_EQ(output2, "Bob has been pardoned by Zaphod Beeblebrox.\n");
+
+    Bureaucrat intern("Jej", 100);
+    testing::internal::CaptureStderr();
+    try
+    {
+		employee.executeForm(file);
+    }
+    catch (const AForm::GradeTooLowException& e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
+    std::string output1 = testing::internal::GetCapturedStderr();
+    EXPECT_FALSE(file.isSigned());
+    EXPECT_EQ(output1, "Executor grade is too low.\n");
 }
 
 /*TEST(BureaucratTest, template)*/

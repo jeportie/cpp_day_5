@@ -55,12 +55,11 @@ bool checkException(std::string name1, size_t grade1, std::string name2, size_t 
 int main(void)
 {
     checkException("Boss", 42, "sam", 60);
-    checkException("Boss", 0, "sam", 120); // Grade too high for boss
-    checkException("Boss", 151, "sam", 120); // Grade too low for boss
-    checkException("Boss", 1, "sam", 0); // Grade too high for form signing
-    checkException("Boss", 1, "sam", 151); // Grade too low for form execution
-    checkException("Boss", 1, "sam", 25); // Exact grade for PresidentialPardonForm
-    checkException("Boss", 10, "sam", 72); // Exact grade for RobotomyRequestForm
-
+    checkException("Boss", 0, "sam", 120);
+    checkException("Boss", 151, "sam", 120);
+    checkException("Boss", 1, "sam", 0);
+    checkException("Boss", 1, "sam", 151);
+    checkException("Boss", 1, "sam", 25);
+    checkException("Boss", 10, "sam", 72);
     return (0);
 }
