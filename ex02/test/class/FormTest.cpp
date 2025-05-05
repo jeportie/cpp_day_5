@@ -13,13 +13,14 @@
 #include <gtest/gtest.h>
 #include "../../src/class/PresidentialPardonForm.hpp"
 #include "../../src/class/RobotomyRequestForm.hpp"
+#include "../../src/class/ShrubberyCreationForm.hpp"
 
 TEST(AFormTestPres, ParametricConstructor)
 {
     PresidentialPardonForm f("Bob");
     EXPECT_EQ(f.getName(), "PresidentialPardonForm");
     EXPECT_FALSE(f.isSigned());
-    EXPECT_EQ(f.getReqSignGrade(), 20);
+    EXPECT_EQ(f.getReqSignGrade(), 25);
     EXPECT_EQ(f.getReqExecGrade(), 5);
 }
 
@@ -34,8 +35,8 @@ TEST(AFormTestRobot, ParametricConstructor)
 
 TEST(AFormShrubbery, ParametricConstructor)
 {
-    RobotomyRequestForm f("Bob");
-    EXPECT_EQ(f.getName(), "ShrubberyCreationFile");
+    ShrubberyCreationForm f("Bob");
+    EXPECT_EQ(f.getName(), "ShrubberyCreationForm");
     EXPECT_FALSE(f.isSigned());
     EXPECT_EQ(f.getReqSignGrade(), 145);
     EXPECT_EQ(f.getReqExecGrade(), 137);

@@ -123,50 +123,52 @@ TEST(BureaucratTest, signForm)
     Bureaucrat employee("Bob", 1);
 
     PresidentialPardonForm file("Bob");
+    PresidentialPardonForm file1("Bob");
     testing::internal::CaptureStdout();
     employee.signForm(file);
     std::string output = testing::internal::GetCapturedStdout();
     EXPECT_TRUE(file.isSigned());
-    EXPECT_EQ(output, "Bob signed Test\n");
+    EXPECT_EQ(output, "Bob signed PresidentialPardonForm\n");
 
     Bureaucrat intern("Jej", 100);
     testing::internal::CaptureStderr();
     try
     {
-		intern.signForm(file);
+		intern.signForm(file1);
     }
     catch (const AForm::GradeTooLowException& e)
     {
         std::cerr << e.what() << std::endl;
     }
     std::string output1 = testing::internal::GetCapturedStderr();
-    EXPECT_FALSE(file.isSigned());
-    EXPECT_EQ(output, "Form is not signed.\n");
+    EXPECT_FALSE(file1.isSigned());
+    EXPECT_EQ(output1, "Error: Employee grade is too low.\n");
 }
 
 TEST(BureaucratTest, execForm)
 {
-    Bureaucrat employee("Bob", 1);
-
+    Bureaucrat employee("Jej", 1);
     PresidentialPardonForm file("Bob");
+
+    employee.signForm(file);
     testing::internal::CaptureStdout();
     employee.executeForm(file);
-    std::string output2 = testing::internal::GetCapturedStdout();
-    EXPECT_EQ(output2, "Bob has been pardoned by Zaphod Beeblebrox.\n");
+    std::string output = testing::internal::GetCapturedStdout();
+    EXPECT_EQ(output, "Bob has been pardoned by Zaphod Beeblebrox.\nJej executed PresidentialPardonForm\n");
 
     Bureaucrat intern("Jej", 100);
     testing::internal::CaptureStderr();
     try
     {
-		employee.executeForm(file);
+		intern.executeForm(file);
     }
     catch (const AForm::GradeTooLowException& e)
     {
         std::cerr << e.what() << std::endl;
     }
     std::string output1 = testing::internal::GetCapturedStderr();
-    EXPECT_FALSE(file.isSigned());
-    EXPECT_EQ(output1, "Executor grade is too low.\n");
+    EXPECT_TRUE(file.isSigned());
+    EXPECT_EQ(output1, "Jej couldn't execute PresidentialPardonForm because Executor grade is too low.\n");
 }
 
 /*TEST(BureaucratTest, template)*/
